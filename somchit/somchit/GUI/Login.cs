@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using somchit.SC;
 
 namespace somchit.GUI
 {
-    public partial class frmLogin : Form
+    public partial class Login : Form
     {
-        public frmLogin()
+        public Login()
         {
             InitializeComponent();
         }
@@ -38,9 +33,9 @@ namespace somchit.GUI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (new SC.Adodb().IsExistingUser(textBox1.Text, textBox2.Text))
+            if (new Adodb().IsExistingUser(textBox1.Text, textBox2.Text))
             {
-                this.Hide();
+                Hide();
                 new MainMenu().Show();
             }
             else

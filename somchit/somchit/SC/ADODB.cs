@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using  System.Data;
-using  System.Data.OleDb;
+using System.Data.OleDb;
+using System.Diagnostics;
 
 namespace somchit.SC
 {
@@ -13,14 +10,14 @@ namespace somchit.SC
        private OleDbDataReader reader;
        private OleDbConnection GetDbConnection()
        {
-           OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\dorm.accdb;Jet OLEDB:Database Password=admin;");
+           OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\somchit.accdb;");
            try
            {
                conn.Open();
            }
            catch (Exception exception)
            {
-             System.Diagnostics.Debug.WriteLine(exception.Message);
+             Debug.WriteLine(exception.Message);
            }
            return conn;
        }
@@ -37,7 +34,52 @@ namespace somchit.SC
            }
            catch (Exception exception)
            {
-              System.Diagnostics.Debug.WriteLine(exception.Message);
+              Debug.WriteLine(exception.Message);
+           }
+           return flag;
+       }
+
+       internal string GetNewRenterID()
+       {
+           string flag = "RID-10001";
+           try
+           {
+               cmdCommand = new OleDbCommand("select top 1 r_id from renters order by r_id desc",GetDbConnection());
+               reader = cmdCommand.ExecuteReader();
+              
+                   string raw = "";
+                   while (reader.Read())
+                   {
+                       raw = reader[0].ToString();
+                   }
+                   string[] praw = raw.Split('-');
+                   int proc = Convert.ToInt32(praw[1]);
+                   flag = "RID-" + (proc + 1);
+           }
+           catch (Exception exception)
+           {
+               Debug.WriteLine(exception.Message);
+           }
+           return flag;
+       }
+       internal string GetNewRoomNumber()
+       {
+           string flag = "1";
+           try
+           {
+               cmdCommand = new OleDbCommand("select top 1 room_no from rooms order by room_no desc", GetDbConnection());
+               reader = cmdCommand.ExecuteReader();
+
+               int raw = 0;
+               while (reader.Read())
+               {
+                   raw = Convert.ToInt32(reader[0].ToString());
+               }
+               flag = (raw + 1).ToString();
+           }
+           catch (Exception exception)
+           {
+               Debug.WriteLine(exception.Message);
            }
            return flag;
        }

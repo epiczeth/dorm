@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
-using  somchit.GUI;
+using somchit.GUI;
 
 namespace somchit
 {
@@ -16,7 +14,7 @@ namespace somchit
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new  frmLogin());
+            Application.Run(new  Login());
         }
     }
 }
